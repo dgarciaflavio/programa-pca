@@ -1,0 +1,38 @@
+name: Build macOS App
+
+on:
+  push:
+    branches: [ main ] # O robô vai rodar sempre que você atualizar os arquivos
+
+jobs:
+  build:
+    runs-on: macos-latest # Usaremos um computador virtual com macOS
+
+    steps:
+    # 1. Baixa o seu código para o computador virtual
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Configura o ambiente Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    # 3. Instala as bibliotecas do seu projeto
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # 4. Roda o PyInstaller para criar o .app
+    - name: Build macOS Application
+      run: |
+        pyinstaller --noconfirm --windowed --onefile --name "ConsultaPCA" main.py
+
+    # 5. Salva o aplicativo criado como um "artefato" para download
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ConsultaPCA-macOS
+        path: dist/ConsultaPCA.app
