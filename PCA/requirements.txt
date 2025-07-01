@@ -1,0 +1,5 @@
+pandas
+requests
+PySide6
+pyperclip
+pyinstaller

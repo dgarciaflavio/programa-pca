@@ -1,0 +1,9 @@
+{
+    "data_sources": {
+        "2024": "https://pncp.gov.br/api/pncp/v1/orgaos/250106/planos-de-contratacao/2024/itens?pagina=1&tamanhoPagina=10000",
+        "2025": "https://pncp.gov.br/api/pncp/v1/orgaos/250106/planos-de-contratacao/2025/itens?pagina=1&tamanhoPagina=10000",
+        "2026": "https://pncp.gov.br/api/pncp/v1/orgaos/250106/planos-de-contratacao/2026/itens?pagina=1&tamanhoPagina=10000"
+    },
+    "filters": {},
+    "ultima_verificacao_semanal": "2000-01-01"
+}
