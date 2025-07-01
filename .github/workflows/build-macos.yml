@@ -2,11 +2,11 @@ name: Build macOS App
 
 on:
   push:
-    branches: [ main ] # O robô vai rodar sempre que você atualizar os arquivos
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: macos-latest # Usaremos um computador virtual com macOS
+    runs-on: macos-latest
 
     steps:
     # 1. Baixa o seu código para o computador virtual
@@ -30,9 +30,9 @@ jobs:
       run: |
         pyinstaller --noconfirm --windowed --onefile --name "ConsultaPCA" main.py
 
-    # 5. Salva o aplicativo criado como um "artefato" para download
+    # 5. Salva o aplicativo criado como um "artefato" para download (VERSÃO ATUALIZADA)
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4 # <-- ESTA LINHA FOI ATUALIZADA
       with:
         name: ConsultaPCA-macOS
         path: dist/ConsultaPCA.app
