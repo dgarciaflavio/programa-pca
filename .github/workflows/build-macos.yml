@@ -19,22 +19,40 @@ jobs:
       with:
         python-version: '3.10'
 
-    # 3. Instala as dependências (DENTRO DA PASTA PCA)
+    # 3. Instala as dependências (dentro da pasta PCA)
     - name: Install dependencies
-      working-directory: ./PCA # <-- MUDANÇA AQUI
+      working-directory: ./PCA
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # 4. Cria o aplicativo (DENTRO DA PASTA PCA)
+    # 4. Cria o aplicativo .app (dentro da pasta PCA)
     - name: Build macOS Application
-      working-directory: ./PCA # <-- MUDANÇA AQUI
+      working-directory: ./PCA
       run: |
         pyinstaller --noconfirm --windowed --onefile --name "ConsultaPCA" main.py
 
-    # 5. Salva o aplicativo para download
+    # 5. NOVO PASSO: Empacota o .app em um .dmg
+    - name: Create DMG
+      working-directory: ./PCA # Executa o comando na pasta certa
+      run: |
+        # Instala a ferramenta para criar o DMG
+        brew install create-dmg
+        
+        # Cria um DMG com o ícone do App e um atalho para a pasta de Aplicativos
+        create-dmg \
+          --volname "Instalador ConsultaPCA" \
+          --window-pos 200 120 \
+          --window-size 600 380 \
+          --icon-size 120 \
+          --icon "ConsultaPCA.app" 150 170 \
+          --app-drop-link 450 170 \
+          "dist/ConsultaPCA.dmg" \
+          "dist/"
+
+    # 6. Salva o arquivo .dmg final para download
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ConsultaPCA-macOS
-        path: PCA/dist/ConsultaPCA.app # <-- MUDANÇA AQUI
+        name: ConsultaPCA-macOS-DMG # Nome do arquivo que você vai baixar
+        path: PCA/dist/ConsultaPCA.dmg # O caminho para o arquivo .dmg que foi criado
